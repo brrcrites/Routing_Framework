@@ -1,4 +1,4 @@
 CS220_Framework
 ===============
 
-The starting framework for various CS220 projects
+PLEASE NOTE: The code standards have not yet been uploaded, you can expect them to be uploaded by Monday (11/3)
