@@ -14,12 +14,12 @@ The project will involve reading in JSON test files (located in the test directo
 
 You will then take this Problem Object, and pass it into your custom problem map object. The custom problem map object is the object you use to reprsent the problem space. In the example we give that object is the Grid object, however **you should not use the grid object** as it is not adequate for this project. you should, however, take advantage of the other classes we give you, such as the Node and Edge classes.
 
-Once you have created your custom problem map object, you should make a call to a routing algorithm (the specific algorithm will depend on which submission you are working on). You will likely be able to use the same custom problem object for mulitple routers, however it is not required that all routes work with the same custom problem object. Your routing algorithm **must return either a Path/vector<Path> or Netlist/vector<Netlist> **depending on what the situation calls for.
+Once you have created your custom problem map object, you should make a call to a routing algorithm (the specific algorithm will depend on which submission you are working on). You will likely be able to use the same custom problem object for mulitple routers, however it is not required that all routes work with the same custom problem object. Your routing algorithm **must return either a Path/vector of Paths or Netlist/vector of Netlists** depending on what the situation calls for.
 
 - Path: A path is a set of straight line segments from one source to one sink
 - Netlist: A netlist is a set of straight line segments from one souce to multiple sinks
 
-Once you have a solution in the form of a Path/vector<Path> or Netlist/vector<Netlist>, you should print your solution to std out for review.
+Once you have a solution in the form of a Path/vector of Paths or Netlist/vector of Netlists, you should print your solution to std out for review.
 
 Currently there is only one test case given, and it is not a good test case. It is given as an example so you can create your own test cases. **You should be creating robust test cases** that are capable of testing malformed input files, edge cases, and problems that are impossible to solve. With this **your program should error gracefully**, meaning if there is a bad input file or some type of error the program should not simply crash. It should give an explination as to the possible error and exit. We have given you the claim system for printing errors, please use it.
 
@@ -43,5 +43,5 @@ For your submission, you must have a repository updated with the code you wish t
 - I must be a collaborator on your repsotiry (username: brrcrites)
 - Your README.md must at minimum have the name(s) of your group members (and hopefully more useful information)
 
-In addition to this, you **must email me with a link to your repsitory**. There are currently many repositories existing, and I have no idea who most of them belong to. **In order to have a private repository you must have a student developer pack**. You (get the student developer pack here)[https://education.github.com/pack], and it comes with alot of other cool stuff. If you do not have the pack, and therefore cannot make your repository private, before the deadline for your proejct, do not worry. Continue to update your repository and make it private as soon as you can.
+In addition to this, you **must email me with a link to your repsitory**. There are currently many repositories existing, and I have no idea who most of them belong to. **In order to have a private repository you must have a student developer pack**. You [get the student developer pack here](https://education.github.com/pack), and it comes with alot of other cool stuff. If you do not have the pack, and therefore cannot make your repository private, before the deadline for your proejct, do not worry. Continue to update your repository and make it private as soon as you can.
 
