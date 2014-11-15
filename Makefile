@@ -1,17 +1,16 @@
 
 SRC=$(filter-out %main.cc, Source/*)
-OBJ=$(SRC:.cc=.o) 
+OBJ=claim.o edge.o grid.o netlist.o node.o path.o pathsegment.o problem_object.o segmentgroup.o 
 
 vpath %.cc Source/
 
 all: $(OBJ) main.cc
-	echo $(SRC)
-	g++ -o grid_test $^
+	g++ -o grid_router $^ Utilities/JSON_parser/json_parser.so 
 
 test: all
-	./grid_test 100 100 10
+	./grid_test
 	
-%.o:%.cc
+%.o: %.cc
 	g++ -c $^
 
 cleanup:

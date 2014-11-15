@@ -1,0 +1,98 @@
+/* File: json_parser.ypp
+ * Author: Jeffrey McDaniel
+ * Date: December 9, 2013
+ * Description: Bison file for JSON parser 
+ */
+
+%{
+#include "json_file.h"
+#include <vector>
+#include <stdio.h>
+#include <string.h>
+
+int count;
+//int tabs;
+
+extern string fn;
+extern JSON::JsonFile* json_file;
+
+void print_tabs(int tabs);
+int jsonerror(char*);
+int jsonlex();
+%}
+
+%code requires {#include "json_file.h"}
+
+%union{
+	int int_val;
+	float float_val;
+	char* str_val;
+	bool bool_val;
+}
+
+/* General JSON rules */
+/*%type <obj_val>object
+%type <array_val>array*/
+/* General JSON tokens */
+%token <bool_val>TRUE
+%token <bool_val>FALSE
+%token JSONNULL
+
+%token <float_val> NUMBER
+%token <int_val> INTNUM
+%token <str_val> IDENT
+
+%start program
+
+%%
+
+program:				{count = 0;} data_structure_list 
+
+data_structure_list:	/* empty */
+						| data_structure data_structure_list
+
+data_structure:			name_value
+						| object
+						| array
+
+object: 				'{' {json_file->create_object();} 
+							name_value '}' {json_file->pop_stack();}
+
+array:					'[' {json_file->create_array();}
+							value_list ']' {json_file->pop_stack();}
+
+name_value:				/* empty */
+						| IDENT  {json_file->create_name_value($1);} ':' value {json_file->pop_stack();}
+						| name_value ',' IDENT {json_file->create_name_value($3);} ':' value  {json_file->pop_stack();}
+
+
+value_list:				/* empty */
+						| value 
+						| value_list ',' value 
+
+value:					IDENT {json_file->set_current_value($1);}
+						| NUMBER {json_file->set_current_value($1);}
+						| INTNUM  {json_file->set_current_value($1);}
+						| object 
+						| array 
+						| TRUE {json_file->set_current_value(true);}
+						| FALSE  {json_file->set_current_value(false);}
+						| JSONNULL {json_file->set_current_value();}
+
+%%
+
+void print_tabs(int tabs) {
+	for (int i = 0;i < tabs;i++) { fprintf(stderr,"\t"); }
+}
+
+int jsonerror(char* s){
+	extern int jsonlineno;
+	extern int jsoncolumn;
+	extern char* jsontext;
+	
+	fprintf(stderr,"%s Error: %s at \"%s\" on line %d:%d\n",fn.c_str(),
+			s,jsontext,jsonlineno,jsoncolumn);
+
+	return 0;
+}
+
