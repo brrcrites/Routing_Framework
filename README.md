@@ -1,7 +1,7 @@
 CS220 Project Framework
 ===============
 
-# Project Overview
+## Project Overview
 
 You will use this framework for the following projects:
 
@@ -25,17 +25,17 @@ Currently there is only one test case given, and it is not a good test case. It 
 
 **Please Note:** If you have one of the projects listed at the top, then your project **MUST** exist within this framework.
 
-# Running the Framework
+## Running the Framework
 
 In order to run the framework, you must first go to Utilities/JSON_parser and run "make". This will create a json_parse.so file that is need to parse the JSON test files that we give you. Next you will go back to the root directory and run "make". This will generate an executable called "grid_router", which you can run by calling "./grid_router <test_case>", where <test_case> is the path of a test case. In the framework we give you there is only one test case, located at "Tests/test_sample.json". This will run the example that we have written for the framework.
 
 **Please Note:** some of you may get a library error when trying to run grid_router. If you recieve this library error, please copy the file "json_parser.so" from Utilities/JSON_parser to the root directory where the file "grid_router" exists and this should fix the problem. Note that you must have already called "make" in Utilities/JSON_parser for "json_parse.so" to exist.
 
-# Bugs
+## Bugs
 
 As I have stated before, we expect there to be bugs in this framework. When you find a bug please [write a good bug report](http://www.chiark.greenend.org.uk/~sgtatham/bugs.html) and submit it to the GitHub bug page. Or better yet create a fix to the problem and [submit a pull request](https://help.github.com/articles/using-pull-requests/). You should also be **checking the bug tracking page** of the repository for known problems before emailing me or submitting a new bug report.
 
-# Your Repository
+## Your Repository
 
 For your submission, you must have a repository updated with the code you wish to submit by 8:00AM PST on the due date. Your repository must also adhere to the following rules.
 
