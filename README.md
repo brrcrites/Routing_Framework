@@ -40,7 +40,7 @@ As I have stated before, we expect there to be bugs in this framework. When you 
 For your submission, you must have a repository updated with the code you wish to submit by 8:00AM PST on the due date. Your repository must also adhere to the following rules.
 
 - Your repository must be private
-- I must be a collaborator on your repsotiry (username: brrcrites)
+- I must be [added as a collaborator on your repository](https://help.github.com/articles/adding-collaborators-to-a-personal-repository/) (username: brrcrites)
 - Your README.md must at minimum have the name(s) of your group members (and hopefully more useful information)
 
 In addition to this, you **must email me with a link to your repsitory**. There are currently many repositories existing, and I have no idea who most of them belong to. **In order to have a private repository you must have a student developer pack**. You [get the student developer pack here](https://education.github.com/pack), and it comes with alot of other cool stuff. If you do not have the pack, and therefore cannot make your repository private, before the deadline for your proejct, do not worry. Continue to update your repository and make it private as soon as you can.
