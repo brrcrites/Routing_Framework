@@ -12,7 +12,10 @@ using std::endl;
 int main(int argc,char* argv[]) {
 
 	// DO NOT CHANGE THIS SECTION OF CODE
-	if(argc < 2) { cout << "Usage: ./grid_router <test_file>" << endl; }
+	if(argc < 2) { 
+		cout << "Usage: ./grid_router <test_file>" << endl; 
+		exit(1);
+	}
 	Utilities::ProblemObject* first_problem = new Utilities::ProblemObject(std::string(argv[1]));
 	// EDIT FROM HERE DOWN
 
