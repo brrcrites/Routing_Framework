@@ -59,17 +59,14 @@ int main(int argc,char* argv[]) {
 	}
 	cout << "Completed." << endl;
 
-	//Print the paths/netlists that you have return from your algorithm
-	for (unsigned i = 0;i < paths.size();i++) {
-		cout << "\tPath " << i+1 << " of " << paths.size() << ": (" 
-			 << paths.at(i)->at(0)->get_source().x << "," << paths.at(i)->at(0)->get_source().y << ") ";
-		for (unsigned j = 0;j < paths.at(i)->size();j++) {
-			cout << "(" << paths.at(i)->at(j)->get_sink().x << "," << paths.at(i)->at(j)->get_sink().y << ") ";
-		}
-		cout << endl;
+	//Print the paths/netlists that you return from your algorithm
+	for(unsigned i = 0; i < paths.size(); i++) {
+		cout << "Path " << i << ": ";
+		paths.at(i)->print();
 		Path* temp = paths.at(i);
 		delete temp;
 	}
+
 	paths.clear();
 
 	delete first_problem;

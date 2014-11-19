@@ -1,6 +1,11 @@
 #include "../Headers/segmentgroup.h"
 #include "../Headers/claim.h"
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 bool Utilities::SegmentGroup::on_segment(Point p1,Point p2,Point p3) {
     if((p2.x <= std::max(p1.x,p3.x) && p2.x >= std::min(p1.x,p3.x)) &&
             (p2.y <= std::max(p1.y,p3.y) && p2.y >= std::min(p1.y,p3.y))) {
@@ -48,6 +53,19 @@ int Utilities::SegmentGroup::get_length() {
         total_length += this->segments.at(i)->get_length();
     }
     return total_length;
+}
+
+void Utilities::SegmentGroup::print() {
+    if(this->segments.size() <= 0) {
+        return;
+    }
+    for(unsigned i = 0; i < this->segments.size(); i++) {
+        this->segments.at(i)->print();
+        if(i < this->segments.size() -1) {
+            cout << " | ";
+        }
+    }
+    cout << endl;
 }
 
 void Utilities::SegmentGroup::add_segment(PathSegment* pathsegment) {
