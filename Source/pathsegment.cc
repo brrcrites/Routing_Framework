@@ -1,6 +1,9 @@
 #include "../Headers/pathsegment.h"
 #include "../Headers/claim.h"
 
+#include <iostream>
+
+using std::cout;
 using Utilities::Point;
 
 void Utilities::PathSegment::update_length() {
@@ -65,6 +68,20 @@ bool Utilities::PathSegment::contains_points(Point source, Point sink) {
         return true;
     }
     return false;
+}
+
+void Utilities::PathSegment::print_source() {
+    cout << "(" << this->source.x << "," << this->source.y << ")";
+}
+
+void Utilities::PathSegment::print_sink() {
+    cout << "(" << this->sink.x << "," << this->sink.y << ")";
+}
+
+void Utilities::PathSegment::print() {
+    this->print_source();
+    cout << " -> ";
+    this->print_sink();
 }
 
 void Utilities::PathSegment::set_source(Point source) {

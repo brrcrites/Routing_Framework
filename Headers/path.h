@@ -29,6 +29,7 @@ namespace Utilities {
             bool empty() const;
             bool contains(const Point& point);
             int get_length();
+            void print();
             */
 
             /* Mutators */

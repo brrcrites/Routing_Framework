@@ -26,6 +26,9 @@ namespace Utilities {
             Point get_sink();
             int get_length();
             bool contains_points(Point source, Point sink);
+            void print_source();
+            void print_sink();
+            void print();
 
             /* Mutators */
             void set_source(Point source);          
