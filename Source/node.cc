@@ -2,6 +2,8 @@
 #include "../Headers/node.h"
 #include "../Headers/claim.h"
 
+#include <iostream>
+
 Utilities::Node::Node(int x, int y, int cost):coord(x,y){
       this->cost = cost;
 }
@@ -102,6 +104,7 @@ void Utilities::Node::set_cost(int cost) {
 
 //If an edge occurs multiple times in the connection list, all instances will be removed
 void Utilities::Node::remove_connection(Edge* connection) {
+      //std::cout << "Removing Connection: (" << connection->get_head()->get_x() << "," << connection->get_head()->get_y() << ") -> (" << connection->get_tail()->get_x() << "," << connection->get_tail()->get_y() << ")" << std::endl;
       bool nothing_removed = true;
 	  vector<Edge*>::iterator connections_it = connections.begin();
       //for(int i = 0; i < this->connections.size(); i++) {

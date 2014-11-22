@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include "path.h"
+#include "problem_object.h"
 #include <vector>
 
 using std::cerr;
@@ -15,16 +16,18 @@ namespace Utilities {
     class Grid {
         private:
             vector<vector<Node*> > grid;
+            int num_connections;
             vector<Path*> paths;
 
         public:
             /* Constructors/Destructors */
-            Grid(int width, int height);
+            Grid(ProblemObject* problem_object);
             ~Grid();
 
             /* Accessors */
             int get_width();
             int get_height();
+            int get_num_connections();
             Node* get_node(int x, int y);
             Node* get_node(Point coord);
             vector<Path*> get_paths();
@@ -36,6 +39,9 @@ namespace Utilities {
             void add_path(Path* path);
             void replace_path(int i, Path* path);
             void remove_path(int i);
+
+            /* Algorithms */
+            vector<Path*> test_algorithm();
     };
 }
 

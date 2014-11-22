@@ -20,7 +20,7 @@ int main(int argc,char* argv[]) {
 	// EDIT FROM HERE DOWN
 
 	//Create your problem map object (in our example, we use a simple grid, you should create your own)
-	Utilities::Grid g(first_problem->get_width(), first_problem->get_height());
+	Utilities::Grid g(first_problem);
 
 	/*
 	Note: we do not take into account the connections or blockers that exist in the Project Object
@@ -36,40 +36,16 @@ int main(int argc,char* argv[]) {
 	Path: a series of straight line segments, with a single source and a single sink
 	Netlist: a series of stright line segments, with a single source and more than one sink
 	*/
+	vector<Path*> paths = g.test_algorithm();
 
-	//Note, we create random paths just as an example of how to create paths, netlists are created similarly
-	vector<Path*> paths;
-	srand(time(NULL));
-	int number_paths = first_problem->get_connections().size();
-	cout << "Creating " << number_paths << " paths...";
-	for (int i = 0;i < number_paths;i++) {
-		Path* new_path = new Path();
-		int x = rand() % first_problem->get_width();
-		int y = rand() % first_problem->get_height();
-		int path_length = 1+rand()%10;
-		for (unsigned j = 0;j < path_length;j++) {
-			bool direction = rand()%2;
-			Point head(x,y);
-			direction?x+=1:y+=1;
-			Point tail(x,y);
-			PathSegment* new_segment = new PathSegment(head,tail);
-			new_path->add_segment(new_segment);
-		}
-		paths.push_back(new_path);
-	}
-	cout << "Completed." << endl;
-
-	//Print the paths/netlists that you have return from your algorithm
-	for (unsigned i = 0;i < paths.size();i++) {
-		cout << "\tPath " << i+1 << " of " << paths.size() << ": (" 
-			 << paths.at(i)->at(0)->get_source().x << "," << paths.at(i)->at(0)->get_source().y << ") ";
-		for (unsigned j = 0;j < paths.at(i)->size();j++) {
-			cout << "(" << paths.at(i)->at(j)->get_sink().x << "," << paths.at(i)->at(j)->get_sink().y << ") ";
-		}
-		cout << endl;
+	//Print the paths/netlists that you return from your algorithm
+	for(unsigned i = 0; i < paths.size(); i++) {
+		cout << "Path " << i << ": ";
+		paths.at(i)->print();
 		Path* temp = paths.at(i);
 		delete temp;
 	}
+
 	paths.clear();
 
 	delete first_problem;

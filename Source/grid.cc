@@ -1,10 +1,12 @@
 #include "../Headers/grid.h"
 #include "../Headers/edge.h"
 #include "../Headers/claim.h"
-#include <iostream>
 
 //Takes an x and y coordinate as input and creates a grid of that size filled with default nodes
-Utilities::Grid::Grid(int width, int height) {
+Utilities::Grid::Grid(ProblemObject* problem_object) {
+      this->num_connections = problem_object->get_connections().size();
+      int height = problem_object->get_height();
+      int width = problem_object->get_width();
       for(int y = 0; y < height; y++) {
 		  vector<Node*> temp_row;
 	      for(int x = 0; x < width; x++) {
@@ -42,6 +44,10 @@ int Utilities::Grid::get_width() {
 int Utilities::Grid::get_height() {
 	//Assumes a perfect rectangle
 	return this->grid.size();
+}
+
+int Utilities::Grid::get_num_connections() {
+  return this->num_connections;
 }
 
 Node* Utilities::Grid::get_node(int x, int y) {
@@ -102,4 +108,27 @@ void Utilities::Grid::remove_path(int i) {
       vector<Path*>::iterator it = this->paths.begin();
       it += i;
       paths.erase(it);
+}
+
+//Note, we create random paths just as an example of how to create paths, netlists are created similarly
+vector<Path*> Utilities::Grid::test_algorithm() {
+    vector<Path*> paths;
+    srand(time(NULL));
+    int number_paths = this->get_num_connections();
+    for (int i = 0;i < number_paths;i++) {
+      Path* new_path = new Path();
+      int x = rand() % this->get_width();
+      int y = rand() % this->get_height();
+      int path_length = 1+rand()%10;
+      for (unsigned j = 0;j < path_length;j++) {
+        bool direction = rand()%2;
+        Point head(x,y);
+        direction?x+=1:y+=1;
+        Point tail(x,y);
+        PathSegment* new_segment = new PathSegment(head,tail);
+        new_path->add_segment(new_segment);
+      }
+      paths.push_back(new_path);
+    }
+    return paths;
 }
