@@ -10,7 +10,7 @@ You will use this framework for the following projects:
 - Soukup Global Grid Routing
 - Line Routing
 
-The project will involve reading in JSON test files (located in the test directory) and parsing these files into a Problem Object. This step has already been done for you and is written at the beginning of main.cc to allow for command line arguments, **You should not change this code** as it will be used for testing.
+The project will involve reading in JSON test files (located in the test directory) and parsing these files into a Problem Object. This step has already been done for you and is written at the beginning of main.cc to allow for command line arguments, **You should not change this code** as it will be used for testing. Please note that the ProblemObject gives you the width and height of the chip, which will be indexed from 0 to n-1.
 
 You will then take this Problem Object, and pass it into your custom problem map object. The custom problem map object is the object you use to reprsent the problem space. In the example we give that object is the Grid object, however **you should not use the grid object** as it is not adequate for this project. you should, however, take advantage of the other classes we give you, such as the Node and Edge classes.
 
