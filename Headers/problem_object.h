@@ -24,7 +24,7 @@ struct Connection {
 
 struct Blocker {
 	string name;
-	Point location;
+	Point location;		//Note: Point location is the upper left point of the component box
 	unsigned int width;
 	unsigned int height;
 };

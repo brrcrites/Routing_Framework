@@ -12,12 +12,23 @@ You will use this framework for the following projects:
 
 The project will involve reading in JSON test files (located in the test directory) and parsing these files into a Problem Object. This step has already been done for you and is written at the beginning of main.cc to allow for command line arguments. **You should not change this code**, as it will be used for testing. Please note that the ProblemObject gives you the width and height of the chip, which will be **indexed from 0 to n-1**.
 
-You will then take this Problem Object, and pass it into your own custom problem map object. The custom problem map object is the object you use to reprsent the problem space. In the example we give that object is the Grid object, however **you should not use the grid object** as it is not adequate for this project, and has been provided only as an example. You may, however, want to take advantage of the other classes we give you, such as the Node and Edge classes. While it is not required that you use any classes we give you (except for the ProblemObject input and Path/Netlist output), we highly encourage you to use as much of the provided code as fits your requirements. You will also find that many of the classes we provide are too general for your use, in this case we advise you to extend the base class with a child class designed to fit your specific needs.
+You will then take this Problem Object, and pass it into your own custom problem map object. The custom problem map object is the object you use to reprsent the problem space. In the example we give that object is the Grid object, however it is unlikely that an unmodified grid object will be able to meet your routing needs. Because of this we suggest that you either expand on the grid through inheritance or create a brand new object that better meets your individual routing needs. You may also want to take advantage of the other classes we give you, such as the Node and Edge classes. While it is not required that you use any classes we give you (except for the ProblemObject input and Path/Netlist output), we highly encourage you to use as much of the provided code as fits your requirements. You will also find that many of the classes we provide are too general for your use, in this case we advise you to extend the base class with a child class designed to fit your specific needs.
 
-Once you have created your custom problem map object, you should make a call to a routing algorithm (the specific algorithm will depend on which project you are working on). You should strive to be able to use the same custom problem object for mulitple routers, however it is not required that all routes work with the same custom problem object. Your routing algorithm **must return either a Path/vector<Path> or Netlist/vector<Netlist>** depending on what your specific project requires.
+Once you have created your custom problem map object, you should make a call to a routing algorithm (the specific algorithm will depend on which project you are working on). You should strive to be able to use the same custom problem object for mulitple routers, however it is not required that all routes work with the same custom problem object. Your routing algorithm **must return either a Path/vector<Path> or Netlist/vector<Netlist>** depending on what your specific project requires. 
 
 - Path: A path is a set of straight line segments from one source to one sink
 - Netlist: A netlist is a set of straight line segments from one souce to multiple sinks
+
+You will note that both the Path and the Netlist are simply a collection of PathSegment objects, and that a PathSegment object is simply two points (a start point and an end point). These PathSegment objects represent segments of a full path, and should be minimized to be the longest continuous straight line segment possible before a turn. For instance, if you have a full path utilizing the following nodes
+
+> (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2)
+
+Then you would create a single Path object with the following two PathSegment objects:
+
+> (0,0) -> (0,1) -> (0,2)
+> (0,2) -> (1,2) -> (2,2)
+
+This is because `(0,2)` is the last node in the path before a turn is made
 
 Once you have a solution in the form of a Path/vector<Path> or Netlist/vector<Netlist>, you should print your solution to std out for review.
 
