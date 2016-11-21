@@ -57,10 +57,10 @@ Grid::Grid(ProblemObject* problem_object) {
 Grid::~Grid() {
       int width = this->get_width();
       int height = this->get_height();
-      for(int x = 0; x < width; x++) {
+      for(int x = 0; x < height; x++) {
             for(int y = 0; y < width; y++) {
-	    	if(grid.at(y).at(x) != NULL) {
-                  	delete grid.at(y).at(x);
+	    	if(grid.at(x).at(y) != NULL) {
+                  	delete grid.at(x).at(y);
 		  }
             }
       }
