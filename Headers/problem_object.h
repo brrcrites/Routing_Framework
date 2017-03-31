@@ -4,17 +4,13 @@
 #include <vector>
 #include "point.h"
 
-#include "../Utilities/JSON_parser/Headers/json_file.h"
-#include "../Utilities/JSON_parser/Headers/json_array.h"
-#include "../Utilities/JSON_parser/Headers/json_value.h"
-#include "../Utilities/JSON_parser/Headers/json_object.h"
-#include "../Utilities/JSON_parser/Headers/json_parser.h"
+#include "../Utilities/json.hpp"
 
-using JSON::JsonArray;
-using JSON::JsonValue;
-using JSON::JsonObject;
+using json = nlohmann::json;
+
 using Utilities::Point;
 using std::vector;
+using std::string;
 
 struct Connection {
 	string name;
@@ -38,9 +34,8 @@ namespace Utilities {
 			vector<Connection> connections;
 			vector<Blocker> blockers;
 
-			void add_blocker(JsonObject* blocker);
-			void add_connection(JsonObject* connection);
-			int extract_int(JsonValue* int_value);
+			void add_blocker(json blocker);
+			void add_connection(json connection);
 
 		public:
 			/* Constructors */

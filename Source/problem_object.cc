@@ -1,6 +1,14 @@
 #include "../Headers/problem_object.h"
 #include "../Headers/claim.h"
 
+#include <iostream>
+#include <fstream>
+
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::fstream;
+
 Utilities::ProblemObject::ProblemObject() {
 	this->name = "";
 	this->width = 0;
@@ -8,119 +16,145 @@ Utilities::ProblemObject::ProblemObject() {
 }
 
 Utilities::ProblemObject::ProblemObject(string filename) {
+
 	//Create a new JSON file object and parse the file given
-	JSON::JsonFile* json_file = new JSON::JsonFile();
-	json_parse(filename,json_file);
+	fstream input_file;
+	input_file.open(filename);
+	if(!input_file.is_open()) {
+		cerr << "Unable to open input file, failing..." << endl;
+		exit(-1);
+	}
 
 	//Check that there is at least one object, otherwise there is nothing to do (malformed JSON)
-	if(json_file->objects_size() < 1) {
-		claim("The JSON parser failed because the file input has no objects",kError);
+	string file, line;
+	while(getline(input_file, line)) {
+		file += line;
 	}
+	input_file.close();
 
 	//We expect there to be one object, so we want to get that object
-	JSON::JsonObject* file_object = json_file->objects_at(0);
+	json json_file = json::parse(file);
 
 	//First we extract the name, which requires looking for the name tag
-	JsonValue* problem_name = file_object->find("name");
-	//First we check that we got a return from teh call to find("name")
-	if(problem_name) {
-		//If we did get a return, then we want to check that what we got was a string
-		if(problem_name->is_string()) {
-			//If it is a string, then we want to extract the value as a string and assign it
-			this->name = problem_name->get_string();
-		}
+	if(json_file.find("name") != json_file.end()) {
+		this->name = json_file.at("name");
 	} else {
-		//Otherwise, we just assign an empty string
-		this->name = "";
+		cout << "No name was provided in the input file, renaming it " << filename << endl;
+		this->name = filename;
 	}
 
-	//Extract the width and the height of the problem as integers
-	this->height = extract_int(file_object->find("height"));
-	this->width = extract_int(file_object->find("width"));
+	//Then we check that we got a return from teh call to find("name")
+	if(json_file.find("height") == json_file.end()) {
+		cerr << "No height was provided in the input file, failing..." << endl;
+		exit(-1);
+	}
+	if(json_file.find("width") == json_file.end()) {
+		cerr << "No width was provided in the input file, failing..." << endl;
+		exit(-1);
+	}
+	this->height = json_file.at("height");
+	this->width = json_file.at("width");
 
-	/*
-	Now we want to get the list of blockers (squares in the grid that are invalid for routing), however since
-	there are many of these in one problem, we represent them in the JSON object as an array
-	*/
-	JsonValue* list = file_object->find("blockerList");
-	//We have to make sure that this list is an array, otherwise we have a malformed JSON object
-	if(list && list->is_array()) {
-		JsonArray* array = list->get_array();
-		if(array->size() <= 0) {
-			claim("There are no blockers in this system, this is possible but unusual",kWarning);
-		} else {
-			/*
-			We now know this is a JSON array, so we need to iterate through it, check that each part is an
-			object (if not, its some bit of malformed JSON object), and then add the blocker
-			*/
-			for(unsigned i = 0; i < array->size(); i++) {
-				JsonValue* current_value = array->at(i);
-				if(current_value->is_object()) {
-					add_blocker(current_value->get_object());
-				}
-			}
+	//Now we want to get the list of blockers (squares in the grid that are invalid for routing), however since
+	//there are many of these in one problem, we represent them in the JSON object as an array
+	if(json_file.find("blockerList") == json_file.end()) {
+		cout << "No blockers were specified in the input file" << endl;
+	} else {
+		if(!json_file.at("blockerList").is_array()) {
+			cerr << "The \"blockerList\" in the input file must be an array, failing..." << endl;
+			exit(-1);
+		}
+		for(unsigned i = 0; i < json_file.at("blockerList").size(); i++) {
+			add_blocker(json_file.at("blockerList").at(i));
 		}
 	}
 
 	//Now we do the same as above, but for the list of routes that we need to solve
-	list = file_object->find("routeList");
-	if(list && list->is_array()) {
-		JsonArray* array = list->get_array();
-		if(array->size() <= 0) {
-			claim("There are no routes in this system, this is possible but unusual",kWarning);
-		} else {
-			for(unsigned i = 0; i < array->size(); i++) {
-				JsonValue* current_value = array->at(i);
-				if(current_value->is_object()) {
-					add_connection(current_value->get_object());
-				}
-			}
+	if(json_file.find("routeList") == json_file.end()) {
+		cout << "No routes were specified in the input file" << endl;
+	} else {
+		if(!json_file.at("routeList").is_array()) {
+			cerr << "The \"routeList\" in the input file must be an array, failing..." << endl;
+			exit(-1);
+		}
+		for(unsigned i = 0; i < json_file.at("routeList").size(); i++) {
+			add_connection(json_file.at("routeList").at(i));
 		}
 	}
-
-	delete json_file;
-	//And now were done with a fully formed problem
 }
 
 Utilities::ProblemObject::~ProblemObject() {
 	/* Empty Destructor */
 }
 
-void Utilities::ProblemObject::add_blocker(JsonObject* blocker) {
+void Utilities::ProblemObject::add_blocker(json blocker) {
+
 	Blocker new_blocker;
-	JsonValue* blocker_name = blocker->find("name");
-	if(blocker_name && blocker_name->is_string()) {
-		new_blocker.name = blocker_name->get_string();
+
+	if(blocker.find("name") == blocker.end()) {
+		cout << "A blocker was defined in the input file with no name, renaming it blocker" << this->blockers.size() << endl;
+		new_blocker.name = "blocker" + std::to_string(this->blockers.size());
 	} else {
-		claim("Blocker does not have a name, likely malformed JSON file",kWarning);
+		new_blocker.name = blocker.at("name");
 	}
-	new_blocker.width = extract_int(blocker->find("width"));
-	new_blocker.height = extract_int(blocker->find("height"));
-	new_blocker.location.x = extract_int(blocker->find("x"));
-	new_blocker.location.y = extract_int(blocker->find("y"));
+
+	if(blocker.find("height") == blocker.end()) {
+		cerr << "Blocker " << new_blocker.name << " was defined without a height, failing..." << endl;
+		exit(-1);
+	}
+	if(blocker.find("width") == blocker.end()) {
+		cerr << "Blocker " << new_blocker.name << " was defined without a width, failing..." << endl;
+		exit(-1);
+	}
+	if(blocker.find("x") == blocker.end()) {
+		cerr << "Blocker " << new_blocker.name << " was defined without a x position, failing..." << endl;
+		exit(-1);
+	}
+	if(blocker.find("y") == blocker.end()) {
+		cerr << "Blocker " << new_blocker.name << " was defined without a y position, failing..." << endl;
+		exit(-1);
+	}
+
+	new_blocker.height = blocker.at("height");
+	new_blocker.width = blocker.at("width");
+	new_blocker.location.x = blocker.at("x");
+	new_blocker.location.y = blocker.at("y");
+
 	this->blockers.push_back(new_blocker);
 }
 
-void Utilities::ProblemObject::add_connection(JsonObject* connection) {
+void Utilities::ProblemObject::add_connection(json connection) {
 	Connection new_connection;
-	JsonValue* connection_name = connection->find("name");
-	if(connection_name && connection_name->is_string()) {
-		new_connection.name = connection_name->get_string();
+
+	if(connection.find("name") == connection.end()) {
+		cout << "A connection was defined in the input file with no name, renaming it connection" << this->connections.size() << endl;
+		new_connection.name = "connection" + std::to_string(this->connections.size());
 	} else {
-		claim("Connection does not have a name, likely malformed JSON file",kWarning);
+		new_connection.name = connection.at("name");
 	}
-	new_connection.source.x = extract_int(connection->find("source_x"));
-	new_connection.source.y = extract_int(connection->find("source_y"));
-	new_connection.sink.x = extract_int(connection->find("sink_x"));
-	new_connection.sink.y = extract_int(connection->find("sink_y"));
+
+	if(connection.find("source_x") == connection.end()) {
+		cerr << "Connection " << new_connection.name << " was defined withou a source_x position, failing..." << endl;
+		exit(-1);
+	}
+	if(connection.find("source_y") == connection.end()) {
+		cerr << "Connection " << new_connection.name << " was defined withou a source_y position, failing..." << endl;
+		exit(-1);
+	}
+	if(connection.find("sink_x") == connection.end()) {
+		cerr << "Connection " << new_connection.name << " was defined withou a sink_x position, failing..." << endl;
+		exit(-1);
+	}
+	if(connection.find("sink_y") == connection.end()) {
+		cerr << "Connection " << new_connection.name << " was defined withou a sink_y position, failing..." << endl;
+		exit(-1);
+	}
+
+	new_connection.source.x = connection.at("source_x");
+	new_connection.source.y = connection.at("source_y");
+	new_connection.sink.x = connection.at("sink_x");
+	new_connection.sink.y = connection.at("sink_y");
+
 	this->connections.push_back(new_connection);
 }
 
-int Utilities::ProblemObject::extract_int(JsonValue* int_value) {
-	if (int_value != NULL) {
-		if (int_value->is_int()) {
-			return int_value->get_int();
-		}
-	}
-	return 0;
-}
