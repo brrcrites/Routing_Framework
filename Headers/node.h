@@ -23,6 +23,7 @@ namespace Utilities {
 
         public:
             /* Constructors/Destructors */
+	    Node();
             Node(int x, int y, int cost=0);
             Node(Point coord, int cost=0);
             ~Node();

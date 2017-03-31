@@ -4,11 +4,15 @@
 
 #include <iostream>
 
-Utilities::Node::Node(int x, int y, int cost):coord(x,y){
+Utilities::Node::Node():coord() {
+	this->cost = 0;
+}
+
+Utilities::Node::Node(int x, int y, int cost):coord(x,y) {
       this->cost = cost;
 }
 
-Utilities::Node::Node(Point coord, int cost):coord(coord.x,coord.y){
+Utilities::Node::Node(Point coord, int cost):coord(coord.x,coord.y) {
       this->cost = cost;
 }
 
