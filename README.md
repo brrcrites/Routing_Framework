@@ -37,21 +37,9 @@ Currently there is only one test case given, and it is not a robust test case. I
 
 ## Running the Framework
 
-In order to run the framework, you must first go to Utilities/JSON_parser and run the "make" command. This will create a json_parse.so file that is need to parse the JSON test files that we give you. Next you will go back to the root directory and run the "make" command. This will generate an executable called "grid_router", which you can run by calling "./grid_router &lt;test_case&gt;", where &lt;test_case&gt; is the path of a test case. In the framework we give you there is only one provided test case, located at "Tests/test_sample.json".
-
-**Please Note:** some of you may get a library error when trying to run grid_router. If you recieve this library error, please copy the file "json_parser.so" from Utilities/JSON_parser to the root directory where the file "grid_router" exists and this should fix the problem. Note that you must have already called "make" in Utilities/JSON_parser for "json_parse.so" to exist.
+Run the `make` command from the root directory. This will generate an executable called "grid_router", which you can run by calling "./grid_router &lt;test_case&gt;", where &lt;test_case&gt; is the path of a test case. In the framework we give you there is only one provided test case, located at "Tests/test_sample.json".
 
 ## Bugs
 
 We expect there to be bugs in this framework. When you find a bug please [write a good bug report](http://www.chiark.greenend.org.uk/~sgtatham/bugs.html) and submit it to the GitHub issues page for this repository. Or better yet create a fix to the problem and [submit a pull request](https://help.github.com/articles/using-pull-requests/). You should also be **checking the issues tracking page** of the repository for known problems before emailing me or submitting a new bug report.
-
-## Your Repository
-
-For your submission, you must have a repository updated with the code you wish to submit by 8:00AM PST on the due date. Your repository must also adhere to the following rules.
-
-- I must be [added as a collaborator on your repository](https://help.github.com/articles/adding-collaborators-to-a-personal-repository/) (username: brrcrites)
-- Your README.md must at minimum have the name(s) of your group members (and hopefully more useful information)
-- You must email me a link to your repository
-
-In addition, the master branch of your repository **must** always be compilable. If you are working on a new feature that will cause your code to no longer compile, those updates should be put in a branch and merged to the master when completed, tested, and stable.
 
