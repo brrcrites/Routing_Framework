@@ -5,10 +5,11 @@ Routing Project Framework
 
 You will use this framework for the following projects:
 
-- Grid Routing
-- Advanced Grid Routing
-- Soukup Global Grid Routing
-- Line Routing
+- [Grid Routing](https://github.com/brrcrites/Routing_Framework/wiki/Grid-Routing)
+- [Advanced Grid Routing](https://github.com/brrcrites/Routing_Framework/wiki/Advanced-Grid-Routing)
+- [Soukup Global Grid Routing](https://github.com/brrcrites/Routing_Framework/wiki/Soukup's-Global-Router)
+- [Line Routing](https://github.com/brrcrites/Routing_Framework/wiki/Line-Routing)
+- [Steiner Tree Routing](https://github.com/brrcrites/Routing_Framework/wiki/Steiner-Tree-Routing)
 
 The project will involve reading in JSON test files (located in the test directory) and parsing these files into a Problem Object. This step has already been done for you and is written at the beginning of main.cc to allow for command line arguments. **You should not change this code**, as it will be used for testing. Please note that the ProblemObject gives you the width and height of the chip, which will be **indexed from 0 to n-1**.
 
